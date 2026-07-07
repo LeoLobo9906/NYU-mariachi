@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   NYU Mariachi — design tokens (Tailwind v4 @theme)
+   Light / NYU brand. White background, NYU Violet everywhere (nyu.edu style):
+   near-black text on white, violet accents/labels/buttons, soft violet tint
+   sections, and a dark-violet token for photo scrims.
+   NOTE: legacy token NAMES are kept (ink = background, bone = text, gold =
+   accent) so the theme flips site-wide without renaming every utility class.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-ink: #ffffff;        /* page base — white */
+  --color-ink-800: #f4eefc;    /* soft violet tint — alt sections */
+  --color-ink-700: #e9def7;    /* deeper tint — cards / image placeholders */
+  --color-violet: #57068c;     /* official NYU Violet */
+  --color-violet-600: #430861; /* deep violet */
+  --color-violet-500: #57068c; /* accent violet */
+  --color-violet-300: #b98fd8; /* light violet (text on dark scrims) */
+  --color-gold: #57068c;       /* accent → NYU Violet */
+  --color-gold-300: #7a2fb0;   /* accent label, softened */
+  --color-bone: #1b1226;       /* near-black text */
+  --color-bone-dim: #5c5470;   /* muted text */
+  --color-shadow: #1b0733;     /* dark violet — photo gradients / scrims */
+
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base ---------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Lenis smooth-scroll drives motion; disable native smooth. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  /* transparent so a fixed -z-10 background (e.g. SkullBackground) shows through;
+     the white comes from the html layer above. */
+  background: transparent;
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Film grain overlay -------------------------------------------------------- */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Kinetic display type ------------------------------------------------------ */
+.kinetic {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 0.86;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+.outline-type {
+  color: transparent;
+  -webkit-text-stroke: 1.4px var(--color-bone);
+}
+.blend-diff {
+  mix-blend-mode: difference;
+}
+
+/* Marquee ------------------------------------------------------------------- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* Utilities ----------------------------------------------------------------- */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.edge-fade-b {
+  -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent);
+  mask-image: linear-gradient(180deg, #000 70%, transparent);
+}
+
+/* Soft NYU-violet lift for primary actions */
+.btn-glow {
+  box-shadow: 0 10px 24px -10px rgba(87, 6, 140, 0.5);
+  transition: box-shadow 0.3s var(--ease-out-expo), transform 0.3s var(--ease-out-expo);
+}
+.btn-glow:hover {
+  box-shadow: 0 14px 30px -8px rgba(87, 6, 140, 0.65);
+}
+
+/* Violet-rimmed panel — clean framed card on white */
+.neon-rim {
+  border: 1px solid color-mix(in srgb, #57068c 28%, transparent);
+  box-shadow: 0 14px 44px -24px rgba(87, 6, 140, 0.55);
+}
+
+/* Papel picado — gentle breeze sway, hung from the top edge */
+@keyframes picado-sway {
+  from { transform: rotate(-1.6deg); }
+  to { transform: rotate(1.6deg); }
+}
+.picado-flag {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: picado-sway 4.5s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+  .picado-flag { animation: none; }
+}
