@@ -10,10 +10,11 @@ The official website for **NYU Mariachi Violetas**, a student-led mariachi ensem
 
 A cinematic, culturally-rooted marketing site with two audiences in mind: people who might **hire** the group, and students who might **join**. Highlights:
 
-- **Immersive, motion-driven UI** — smooth scroll (Lenis), scroll-triggered reveals and parallax (Framer Motion), a full-screen hero.
-- **Hand-built SVG artwork** — a detailed **papel picado** garland (cut-paper banners with mariachi instruments) that hangs in a real catenary swag, plus a **sugar-skull (calavera)** motif. All generated in code, themed to NYU violet.
-- **Auto-generated roster** — member cards are built directly from the photo folders (`npm run build-roster`), grouped by semester and section.
-- **Repertoire with real album art** — 49 songs, cover images fetched from Apple's iTunes API.
+- **Immersive, motion-driven UI** — smooth scroll (Lenis), scroll-triggered reveals and parallax (Framer Motion), a full-screen cinematic hero.
+- **Hand-built SVG artwork** — a detailed **papel picado** garland (cut-paper banners with mariachi instruments — violins, trumpets, guitars, sombreros, maracas) that hangs in a real catenary swag, plus the group's **moño (mono)** emblem and a faint logo watermark. Generated in code, themed to NYU violet.
+- **Auto-generated roster** — member cards are built directly from the photo folders (`npm run build-roster`), grouped by semester and section (Armonía, Violins & Flutes, Brass, Vocalists).
+- **Repertoire with real album art** — 70+ songs, cover images fetched from Apple's iTunes API.
+- **Photo + video gallery** — a Media page with a Pinterest-style photo collage (click to open a lightbox) and a **Videos tab** of performance clips.
 - **Booking / contact form** — validates required event details and emails the club inbox via Web3Forms (no backend server needed).
 - **SEO-ready** — per-page metadata, `MusicGroup` structured data, sitemap, robots, and a logo favicon.
 - **Fully responsive** and accessible, on a clean white + NYU-violet design system.
@@ -53,8 +54,10 @@ Everything that changes each semester lives in `src/content/`:
 |---|---|
 | `roster.ts` | Members (auto-generated — see below) |
 | `repertoire.ts` | Songs and their interpreters |
+| `videos.ts` | Media page video clips + their order |
+| `gallery.ts` | Media page photos (auto-generated) |
 | `performances.ts` | Events (currently unused; Performances tab is archived) |
-| `club.ts` | Name, email, socials, blurb, audition-form link |
+| `club.ts` | Name, email, socials, short `blurb` (home) + full `story` (About), audition-form link |
 
 **Add / update members**
 1. Drop headshots in `public/images/roster/<semester>/<section>/<name>_<instrument>.png` (e.g. `spring_2026/violins/clarissa_violin.png`).
@@ -63,6 +66,13 @@ Everything that changes each semester lives in `src/content/`:
 **Add photos to the Media gallery**
 1. Drop images in `public/images/mariachi_photos/`.
 2. Run `npm run build-gallery`.
+
+**Add performance videos**
+1. Drop `.mp4` files in `public/videos/`.
+2. Add their paths to `src/content/videos.ts` (the list order = the on-page order).
+They appear under the Media page's **Videos** tab. Note: video files are large — for many/long clips, consider hosting on YouTube and embedding instead (lighter repo + no bandwidth cost).
+
+**Instrument-group / section photos** live in `public/images/groups/` (`armonia.jpg`, `violins.jpg`, `brass.jpg`) and `diego.jpg` (About lead). Section labels are set in `scripts/build-roster.mjs` (`SECTION_LABELS`).
 
 **Add repertoire cover art**
 Covers auto-match by song title. To fetch them from Apple's iTunes API:
