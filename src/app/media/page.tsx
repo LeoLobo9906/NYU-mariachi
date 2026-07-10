@@ -1,8 +1,9 @@
 import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { LogoWatermark } from "@/components/ui/LogoWatermark";
-import { Collage } from "@/components/media/Collage";
+import { MediaTabs } from "@/components/media/MediaTabs";
 import { gallery } from "@/content/gallery";
+import { videos } from "@/content/videos";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -22,7 +23,7 @@ export default function MediaPage() {
       />
       <section className="pb-32">
         <Container>
-          <Collage photos={gallery} />
+          <MediaTabs photos={gallery} videos={videos} />
         </Container>
       </section>
     </>
