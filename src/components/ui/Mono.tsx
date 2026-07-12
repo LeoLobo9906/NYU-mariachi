@@ -4,5 +4,5 @@
 export function Mono({ className = "" }: { className?: string }) {
   // Plain <img> so the standalone SVG file is fetched once and cached.
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src="/images/mono.svg" alt="" aria-hidden className={className} />;
+  return <img src="/images/mono.png" alt="" aria-hidden className={className} />;
 }

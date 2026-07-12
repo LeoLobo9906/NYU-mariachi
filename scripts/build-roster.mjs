@@ -30,8 +30,8 @@ const INSTRUMENT_LABEL = {
 const VOCALISTS = {
   fall_2024: ["eric", "anahi", "paola", "kelsey", "clarissa", "abi", "jose", "thomas"],
   spring_2025: ["eric", "anahi", "paola", "abi", "kelsey", "jose", "thomas"],
-  fall_2025: ["eric", "anahi", "jazmeen", "clarissa", "abi", "lizzy"],
-  spring_2026: ["lizzy", "jazmeen", "susie", "clarissa", "isabella"],
+  fall_2025: ["eric:armonia", "anahi", "jazmeen", "clarissa", "abi", "lizzy", "jose"],
+  spring_2026: ["lizzy", "jazmeen", "susie", "clarissa", "isabella", "eric:armonia", "anahi", "jose"],
 };
 
 // Preferred display spellings (e.g. accents) that a filename can't easily carry.
@@ -86,7 +86,7 @@ for (const semId of semesters) {
         isVocalist: isSinger,
         photo,
       });
-      (photoIndex[stem] ??= []).push({ semId, order: semOrder[semId], isSinger, photo });
+      (photoIndex[stem] ??= []).push({ semId, order: semOrder[semId], section, isSinger, photo });
     }
   }
   rawBySem[semId] = list;
@@ -94,11 +94,18 @@ for (const semId of semesters) {
 
 // Find the best headshot for a person (stem), preferring the same semester,
 // then the nearest semester; among ties prefer a singer photo, then most recent.
-function findPhoto(stem, semId) {
+function findPhoto(stem, semId, prefSection) {
   const entries = photoIndex[stem];
   if (!entries || !entries.length) return null;
   const target = semOrder[semId];
   const best = [...entries].sort((a, b) => {
+    // When a section is specified (to disambiguate two people who share a
+    // first name, e.g. an armonia Eric and a brass Eric), prefer that section.
+    if (prefSection) {
+      const ma = a.section === prefSection ? 0 : 1;
+      const mb = b.section === prefSection ? 0 : 1;
+      if (ma !== mb) return ma - mb;
+    }
     const da = Math.abs(a.order - target);
     const db = Math.abs(b.order - target);
     if (da !== db) return da - db;
@@ -117,8 +124,11 @@ const data = semesters.map((semId, i) => {
 
   // Vocalists: from the VOCALISTS map when defined, else the physical folder.
   if (VOCALISTS[semId]) {
-    for (const stem of VOCALISTS[semId]) {
-      const photo = findPhoto(stem, semId);
+    for (const entry of VOCALISTS[semId]) {
+      // Entries may be "name" or "name:section" — the section pins which
+      // person's headshot to reuse when two members share a first name.
+      const [stem, prefSection] = entry.split(":");
+      const photo = findPhoto(stem, semId, prefSection);
       if (!photo) {
         console.warn(`  ! no photo found for vocalist "${stem}" in ${semId} — skipped`);
         continue;

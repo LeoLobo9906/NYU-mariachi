@@ -16,6 +16,15 @@ export const roster: Semester[] = [
     "current": true,
     "members": [
       {
+        "name": "Anahí",
+        "section": "vocalists",
+        "instruments": [
+          "Vocals"
+        ],
+        "isVocalist": true,
+        "photo": "/images/roster/spring_2025/armonia/anahi_guitar.png"
+      },
+      {
         "name": "Anna",
         "section": "violins",
         "instruments": [
@@ -68,6 +77,15 @@ export const roster: Semester[] = [
         ],
         "isVocalist": false,
         "photo": "/images/roster/spring_2026/woodwind_brass/eric_sopranosax.png"
+      },
+      {
+        "name": "Eric",
+        "section": "vocalists",
+        "instruments": [
+          "Vocals"
+        ],
+        "isVocalist": true,
+        "photo": "/images/roster/fall_2025/armonia/eric_guitar.png"
       },
       {
         "name": "Erik",
@@ -148,6 +166,15 @@ export const roster: Semester[] = [
           "Guitar"
         ],
         "isVocalist": false,
+        "photo": "/images/roster/spring_2026/armonia/jose_guitar.png"
+      },
+      {
+        "name": "Jose",
+        "section": "vocalists",
+        "instruments": [
+          "Vocals"
+        ],
+        "isVocalist": true,
         "photo": "/images/roster/spring_2026/armonia/jose_guitar.png"
       },
       {
@@ -389,6 +416,15 @@ export const roster: Semester[] = [
           "Guitar"
         ],
         "isVocalist": false,
+        "photo": "/images/roster/fall_2025/armonia/jose_guitar.png"
+      },
+      {
+        "name": "Jose",
+        "section": "vocalists",
+        "instruments": [
+          "Vocals"
+        ],
+        "isVocalist": true,
         "photo": "/images/roster/fall_2025/armonia/jose_guitar.png"
       },
       {

@@ -158,7 +158,7 @@ export function ContactForm() {
  name="message"
  required
  rows={4}
- placeholder="Set length, headcount, song requests, budget, anything else we should know…"
+ placeholder="Set length, headcount, song requests, anything else we should know…"
  className={field}
  />
  </div>
